@@ -1,0 +1,24 @@
+{
+  "name": "apresentacao-observer-notificacaoescolar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoaoPedroLiraAmorim/apresentacao-observer-notificacaoEscolar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JoaoPedroLiraAmorim/apresentacao-observer-notificacaoEscolar/issues"
+  },
+  "homepage": "https://github.com/JoaoPedroLiraAmorim/apresentacao-observer-notificacaoEscolar#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}
