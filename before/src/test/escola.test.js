@@ -1,5 +1,9 @@
 const Escola = require("../Escola");
 
+
+// ===== Testes de cenários inválidos -----
+
+
 describe("Escola", () => {
 
     test("Deve lançar um erro quando o título não for informado", () => {
@@ -39,7 +43,7 @@ describe("Escola", () => {
             escola.publicarComunicado(
                 "Reunião de Pais",
                 "A reunião acontecerá segunda-feira.",
-                [""]
+                []
             );
 
         }).toThrow(
@@ -47,20 +51,23 @@ describe("Escola", () => {
         );
     });
 
+    test("Deve lançar um erro quando o tipo de notificação for inválido", () => {
+        const escola = new Escola();
+
+        expect(() => {
+            escola.publicarComunicado(
+                "Reunião de Pais",
+                "A reunião acontecerá segunda-feira.",
+                ["SMS"]
+            );
+
+        }).toThrow(
+            "Tipo de notificação inválido."
+        );
+    });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+// ----- Testes de cenários válidos -----
 
 
     test("Deve enviar um comunicado via EMAIL", () => {
