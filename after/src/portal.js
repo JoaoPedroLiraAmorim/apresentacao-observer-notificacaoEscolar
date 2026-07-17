@@ -1,13 +1,13 @@
 const Notificacao = require("./Notificacao");
 
-class Email extends Notificacao {
+class Portal extends Notificacao {
 
     enviar(comunicado) {
-        console.log("\n=== EMAIL ===")
+        console.log("\n=== PORTAL ESCOLAR ===")
         console.log(`Título: ${comunicado.titulo}`);
         console.log(`Mensagem: ${comunicado.mensagem}`);
     }
 
 }
 
-module.exports = Email;
+module.exports = Portal;
