@@ -1,4 +1,5 @@
-const Comunicado = require("./Comunicado")
+const Comunicado = require("./Comunicado");
+const Notificacao = require("./Notificacao");
 
 class Escola {
 
@@ -7,6 +8,10 @@ class Escola {
     }
 
     adicionarObservador(observador) {
+         if (!observador || typeof observador.enviar !== "function") {
+        throw new Error("O observador deve implementar o método enviar().");
+    }
+
         this.observadores.push(observador);
     }
 
