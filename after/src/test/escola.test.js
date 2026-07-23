@@ -9,10 +9,9 @@ const Email = require("../Email");
 describe("Comunicado", () => {
 
     test("deve lançar um erro quando o título não for informado", () => {
-        const escola = new Escola();
 
         expect(() => {
-            const comunicado = new Comunicado(
+            new Comunicado(
                 "",
                 "A reunião acontecerá na segunda-feira às 16h."
             );
@@ -23,10 +22,9 @@ describe("Comunicado", () => {
     });
 
     test("deve lançar um erro quando a mensagem não for informada", () => {
-        const escola = new Escola();
 
         expect(() => {
-            const comunicado = new Comunicado(
+            new Comunicado(
                 "Reunião de Pais",
                 ""
             );
@@ -40,9 +38,20 @@ describe("Comunicado", () => {
 
 describe("Escola", () => {
 
+    let escola;
+    let comunicado;
+
+    beforeEach(() => {
+
+        escola = new Escola();
+
+        comunicado = new Comunicado(
+            "Reunião de Pais",
+            "A reunião acontecerá na segunda-feira às 16h."
+        );
+    });
+
     test("deve lançar um erro quando o observador for inválido", () => {
-        
-        const escola = new Escola();
 
         expect(() => {
             escola.adicionarObservador({});
@@ -53,78 +62,81 @@ describe("Escola", () => {
 
     test("deve notificar os observadores quando um comunicado for publicado", () => {
 
-        const escola = new Escola();
+        const email = {
+            enviar: jest.fn()
+        };
 
-        const comunicado = new Comunicado(
-            "Reunião de Pais",
-            "A reunião acontecerá na segunda-feira às 16h."
-        );
+        const whatsapp = {
+            enviar: jest.fn()
+        };
 
-        const email = new Email();
-
-        const enviarSpy = jest
-            .spyOn(email, "enviar")
-            .mockImplementation(() => {});
+        const portal = {
+            enviar: jest.fn()
+        };
 
         escola.adicionarObservador(email);
+        escola.adicionarObservador(whatsapp);
+        escola.adicionarObservador(portal);
 
         escola.publicarComunicado(comunicado);
 
-        expect(enviarSpy).toHaveBeenCalledWith(comunicado);
-
-        enviarSpy.mockRestore();
+        expect(email.enviar).toHaveBeenCalledWith(comunicado);
+        expect(whatsapp.enviar).toHaveBeenCalledWith(comunicado);
+        expect(portal.enviar).toHaveBeenCalledWith(comunicado);
     });
 
     test("deve remover um observador para que ele não seja mais notificado", () => {
 
-        const escola = new Escola();
+         const observador = {
+            enviar: jest.fn()
+        }
 
-        const comunicado = new Comunicado(
-            "Reunião de Pais",
-            "A reunião acontecerá na segunda-feira às 16h."
-        );
+        escola.adicionarObservador(observador);
 
-        const email = new Email();
-
-        const enviarSpy = jest
-            .spyOn(email, "enviar")
-            .mockImplementation(() => {});
-
-        escola.adicionarObservador(email);
-
-        escola.removerObservador(email);
+        escola.removerObservador(observador);
 
         escola.publicarComunicado(comunicado);
 
-        expect(enviarSpy).not.toHaveBeenCalled();
-
-        enviarSpy.mockRestore();
-    });
-});
+        expect(observador.enviar).not.toHaveBeenCalled();
+    }); 
+}); 
 
 
 describe("Email", () => {
 
     test("deve enviar um comunicado via Email", () => {
 
-        const escola = new Escola();
+        const email = new Email();
 
         const comunicado = new Comunicado(
             "Reunião de Pais",
             "A reunião acontecerá na segunda-feira às 16h."
         );
 
-        const email = new Email();
+        const spy = jest
+            .spyOn(console, "log")
+            .mockImplementation(() => {});
 
-        const enviarSpy = jest.spyOn(email, "enviar");
+        email.enviar(comunicado);
 
-        escola.adicionarObservador(email);
+        expect(spy).toHaveBeenCalledTimes(3);
 
-        escola.publicarComunicado(comunicado);
+        expect(spy).toHaveBeenNthCalledWith(
+            1,
+            "\n=== EMAIL ==="
+        );
 
-        expect(enviarSpy).toHaveBeenCalledWith(comunicado);
+        expect(spy).toHaveBeenNthCalledWith(
+            2,
+            "Título: Reunião de Pais"
+        );
 
-        enviarSpy.mockRestore();
+        expect(spy).toHaveBeenNthCalledWith(
+            3,
+            "Mensagem: A reunião acontecerá na segunda-feira às 16h."
+        );
+
+        spy.mockRestore();
     });
 });
 
@@ -133,24 +145,37 @@ describe("WhatsApp", () => {
 
     test("deve enviar um comunicado via WhatsApp", () => {
 
-        const escola = new Escola();
+        const whatsapp = new WhatsApp();
 
         const comunicado = new Comunicado(
             "Reunião de Pais",
             "A reunião acontecerá na segunda-feira às 16h."
+        );        
+
+        const spy = jest
+            .spyOn(console, "log")
+            .mockImplementation(() => {});
+
+        whatsapp.enviar(comunicado);
+
+        expect(spy).toHaveBeenCalledTimes(3);
+
+        expect(spy).toHaveBeenNthCalledWith(
+            1,
+            "\n=== WHATSAPP ==="
         );
 
-        const whatsapp = new WhatsApp();
+        expect(spy).toHaveBeenNthCalledWith(
+            2,
+            "Título: Reunião de Pais"
+        );
 
-        const enviarSpy = jest.spyOn(whatsapp, "enviar");
+        expect(spy).toHaveBeenNthCalledWith(
+            3,
+            "Mensagem: A reunião acontecerá na segunda-feira às 16h."
+        );
 
-        escola.adicionarObservador(whatsapp);
-
-        escola.publicarComunicado(comunicado);
-
-        expect(enviarSpy).toHaveBeenCalledWith(comunicado);
-
-        enviarSpy.mockRestore();
+        spy.mockRestore();
     });
 });
 
@@ -159,23 +184,36 @@ describe("Portal", () => {
 
     test("deve enviar um comunicado via Portal Escolar", () => {
 
-        const escola = new Escola();
+        const portal = new Portal();
 
         const comunicado = new Comunicado(
             "Reunião de Pais",
             "A reunião acontecerá na segunda-feira às 16h."
         );
 
-        const portal = new Portal();
+        const spy = jest
+            .spyOn(console, "log")
+            .mockImplementation(() => {});
 
-        const enviarSpy = jest.spyOn(portal, "enviar");
+        portal.enviar(comunicado);
 
-        escola.adicionarObservador(portal);
+        expect(spy).toHaveBeenCalledTimes(3);
 
-        escola.publicarComunicado(comunicado);
+        expect(spy).toHaveBeenNthCalledWith(
+            1,
+            "\n=== PORTAL ESCOLAR ==="
+        );
 
-        expect(enviarSpy).toHaveBeenCalledWith(comunicado);
+        expect(spy).toHaveBeenNthCalledWith(
+            2,
+            "Título: Reunião de Pais"
+        );
 
-        enviarSpy.mockRestore();
+        expect(spy).toHaveBeenNthCalledWith(
+            3,
+            "Mensagem: A reunião acontecerá na segunda-feira às 16h."
+        );
+
+        spy.mockRestore();
     });
 });
