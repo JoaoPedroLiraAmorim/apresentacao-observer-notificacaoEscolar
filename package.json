@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "before": "node before/src/index.js",
+    "after": "node after/src/index.js",
+    "test:before": "jest before/src/test",
+    "test:after": "jest after/src/test"
   },
   "repository": {
     "type": "git",
