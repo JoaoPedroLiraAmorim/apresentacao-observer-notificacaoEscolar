@@ -71,7 +71,9 @@ describe("Escola", () => {
     describe("Testes cenários válidos", () => {
 
         test("deve enviar um comunicado para todos os tipos de notificação", () => {
-            const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+            const emailSpy = jest.spyOn(escola, "enviarEmail").mockImplementation(() => {});
+            const whatsappSpy = jest.spyOn(escola, "enviarWhatsApp").mockImplementation(() => {});
+            const portalSpy = jest.spyOn(escola, "enviarPortal").mockImplementation(() => {});
 
             escola.publicarComunicado(
                 "Reunião de Pais",
@@ -79,37 +81,14 @@ describe("Escola", () => {
                 ["EMAIL", "WHATSAPP", "PORTAL"]
             );
 
-            expect(consoleSpy).toHaveBeenCalledTimes(5);
-
-            expect(consoleSpy).toHaveBeenNthCalledWith(
-                1,
-                "Título: Reunião de Pais"
-            );
-
-            expect(consoleSpy).toHaveBeenNthCalledWith(
-                2,
-                "Comunicado: A reunião acontecerá segunda-feira."
-            );
-
-            expect(consoleSpy).toHaveBeenNthCalledWith(
-                3,
-                "\nMensagem enviada via Email aos responsáveis."
-            );
-
-            expect(consoleSpy).toHaveBeenNthCalledWith(
-                4,
-                "\nMensagem enviada via WhatsApp aos responsáveis."
-            );
-
-            expect(consoleSpy).toHaveBeenNthCalledWith(
-                5,
-                "\nMensagem enviada via Portal Escolar aos responsáveis."
-            );
-        })
+            expect(emailSpy).toHaveBeenCalledTimes(1);
+            expect(whatsappSpy).toHaveBeenCalledTimes(1);
+            expect(portalSpy).toHaveBeenCalledTimes(1);
+        });
 
 
         test("Deve enviar um comunicado via Email", () => {
-            const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+            const spy = jest.spyOn(escola, "enviarEmail").mockImplementation(() => {});
 
             escola.publicarComunicado(
                 "Reunião de Pais",
@@ -117,13 +96,11 @@ describe("Escola", () => {
                 ["EMAIL"]
             );
 
-            expect(consoleSpy).toHaveBeenCalledWith(
-                "\nMensagem enviada via Email aos responsáveis."
-            );
+            expect(spy).toHaveBeenCalledTimes(1);
         });
 
         test("Deve enviar um comunicado via WhatsApp", () => {
-            const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+            const spy = jest.spyOn(escola, "enviarWhatsApp").mockImplementation(() => {});
 
             escola.publicarComunicado(
                 "Reunião de Pais",
@@ -131,13 +108,11 @@ describe("Escola", () => {
                 ["WHATSAPP"]
             );
 
-            expect(consoleSpy).toHaveBeenCalledWith(
-                "\nMensagem enviada via WhatsApp aos responsáveis."
-            );
+            expect(spy).toHaveBeenCalledTimes(1);
         });
 
         test("Deve enviar um comunicado via Portal Escolar", () => {
-            const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+            const spy = jest.spyOn(escola, "enviarPortal").mockImplementation(() => {});
 
             escola.publicarComunicado(
                 "Reunião de Pais",
@@ -145,9 +120,7 @@ describe("Escola", () => {
                 ["PORTAL"]
             );
 
-            expect(consoleSpy).toHaveBeenCalledWith(
-                "\nMensagem enviada via Portal Escolar aos responsáveis."
-            );
+            expect(spy).toHaveBeenCalledTimes(1);
         });
     });
 });

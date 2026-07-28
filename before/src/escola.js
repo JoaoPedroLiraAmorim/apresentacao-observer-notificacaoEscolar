@@ -28,17 +28,29 @@ class Escola {
             }
 
             if (tipo === "EMAIL") {
-                console.log("Mensagem enviada via Email aos responsáveis.");
+                this.enviarEmail();
             }
 
             if (tipo === "WHATSAPP") {
-                console.log("Mensagem enviada via WhatsApp aos responsáveis.");
+                this.enviarWhatsApp();
             }
 
             if (tipo === "PORTAL") {
-                console.log("Mensagem enviada via Portal Escolar aos responsáveis.");
+                this.publicarPortal();
             }
         }
+    }
+
+    enviarEmail() {
+        console.log("\nMensagem enviada via Email aos responsáveis.");
+    }
+
+    enviarWhatsApp() {
+        console.log("Mensagem enviada via WhatsApp aos responsáveis.");
+    }
+
+    publicarPortal() {
+        console.log("Mensagem enviada via Portal Escolar aos responsáveis.");
     }
 }
 
