@@ -14,7 +14,7 @@ describe("Escola", () => {
 
     describe("Testes de cenários inválidos", () => {
 
-        test("Deve lançar um erro quando o título não for informado", () => {
+        test("deve lançar um erro quando o título não for informado", () => {
             expect(() => {
                 escola.publicarComunicado(
                     "",
@@ -27,7 +27,7 @@ describe("Escola", () => {
             );
         });
 
-        test("Deve lançar um erro quando o comunicado não for informado", () => {
+        test("deve lançar um erro quando o comunicado não for informado", () => {
             expect(() => {
                 escola.publicarComunicado(
                     "Reunião de Pais",
@@ -40,7 +40,7 @@ describe("Escola", () => {
             );
         });
 
-        test("Deve lançar um erro quando nenhum tipo de notificação for informado", () => {
+        test("deve lançar um erro quando nenhum tipo de notificação for informado", () => {
             expect(() => {
                 escola.publicarComunicado(
                     "Reunião de Pais",
@@ -53,7 +53,7 @@ describe("Escola", () => {
             );
         });
 
-        test("Deve lançar um erro quando o tipo de notificação for inválido", () => {
+        test("deve lançar um erro quando o tipo de notificação for inválido", () => {
             expect(() => {
                 escola.publicarComunicado(
                     "Reunião de Pais",
@@ -73,7 +73,7 @@ describe("Escola", () => {
         test("deve enviar um comunicado para todos os tipos de notificação", () => {
             const emailSpy = jest.spyOn(escola, "enviarEmail").mockImplementation(() => {});
             const whatsappSpy = jest.spyOn(escola, "enviarWhatsApp").mockImplementation(() => {});
-            const portalSpy = jest.spyOn(escola, "enviarPortal").mockImplementation(() => {});
+            const portalSpy = jest.spyOn(escola, "publicarPortal").mockImplementation(() => {});
 
             escola.publicarComunicado(
                 "Reunião de Pais",
@@ -87,7 +87,7 @@ describe("Escola", () => {
         });
 
 
-        test("Deve enviar um comunicado via Email", () => {
+        test("deve enviar um comunicado via Email", () => {
             const spy = jest.spyOn(escola, "enviarEmail").mockImplementation(() => {});
 
             escola.publicarComunicado(
@@ -99,7 +99,7 @@ describe("Escola", () => {
             expect(spy).toHaveBeenCalledTimes(1);
         });
 
-        test("Deve enviar um comunicado via WhatsApp", () => {
+        test("deve enviar um comunicado via WhatsApp", () => {
             const spy = jest.spyOn(escola, "enviarWhatsApp").mockImplementation(() => {});
 
             escola.publicarComunicado(
@@ -111,8 +111,8 @@ describe("Escola", () => {
             expect(spy).toHaveBeenCalledTimes(1);
         });
 
-        test("Deve enviar um comunicado via Portal Escolar", () => {
-            const spy = jest.spyOn(escola, "enviarPortal").mockImplementation(() => {});
+        test("deve enviar um comunicado via Portal Escolar", () => {
+            const spy = jest.spyOn(escola, "publicarPortal").mockImplementation(() => {});
 
             escola.publicarComunicado(
                 "Reunião de Pais",
