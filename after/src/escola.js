@@ -1,6 +1,3 @@
-const Comunicado = require("./Comunicado");
-const Notificacao = require("./Notificacao");
-
 class Escola {
 
     constructor() {
