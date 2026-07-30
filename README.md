@@ -22,7 +22,7 @@ Uma escola precisa enviar comunicados aos responsáveis por diferentes canais ao
 - **Observer Pattern:** permite que a classe `Escola` notifique automaticamente todos os observadores cadastrados sem conhecer a implementação de cada um.
 - **Polimorfismo:** todos os tipos de notificação implementam o método `enviar()`, permitindo que sejam tratados da mesma forma.
 - **Abstração:** foi criada a abstração `Notificacao` para definir o contrato que todos os observadores devem seguir.
-- **Encapsulamento:** cada classe de notificação é responsável apenas pelo seu próprio comportamento.
+- **Encapsulamento:** a classe `Comunicado` reúne os dados do comunicado e suas validações, garantindo que o objeto permaneça em um estado válido.
 - **Princípio da Responsabilidade Única (SRP):** a classe `Escola` passou a ser responsável apenas por gerenciar e notificar observadores, enquanto cada canal de notificação ficou responsável pelo envio da mensagem.
 - **Princípio Aberto/Fechado (OCP):** novos canais de notificação podem ser adicionados sem modificar a classe `Escola`.
 
